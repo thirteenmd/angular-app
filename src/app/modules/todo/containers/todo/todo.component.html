@@ -1,0 +1,37 @@
+<div class="container">
+  <h1>Add new todo</h1>
+  <form (submit)="onSubmit()">
+    <!-- <input type="text" [(ngModel)]="name" name="name" class="form-control" placeholder="name" /><br> -->
+    <input type="submit" class="btn btn-primary btn-block" value="Submit"/>
+  </form>
+
+  <h1>ToDoS</h1>
+  <form>
+    <div class="form-group row" *ngIf="todos">
+      <div class="col-sm-4 card bg-warning" *ngFor="let todo of todos">
+        <div class="card-body" id='todoDiv'>
+          <i class="card-img-top material-icons">turned_in_not</i>
+          <h5 class="card-title">
+            <b>Todo:</b>
+            {{todo.name}}
+          </h5>
+          <p class="card-text">
+            <b>Finished:</b>
+            {{todo.finished}}
+          </p>
+          <em class="card-text">
+            <b>Date:</b>
+            {{todo.finishedAt.date}}
+          </em>
+          <br>
+          <em class="card-text ">
+            <b>Todo description:</b>
+            {{todo.finishedAt.description}}
+          </em>
+          <br>
+          <a class="btn btn-primary">View details</a>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
