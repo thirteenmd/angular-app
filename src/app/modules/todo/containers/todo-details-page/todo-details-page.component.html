@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="space-30"></div>
+  <div class="card" *ngIf="todo">
+    <div class="card-body" id='todoDiv'>
+      <i class="card-img-top material-icons">turned_in_not</i>
+      <h5 class="card-title">
+        <b>Todo:</b>
+        {{todo.name}}
+      </h5>
+      <p class="card-text">
+        <b>Finished:</b>
+        {{todo.finished}}
+      </p>
+      <p class="card-text">
+        <b>Date:</b>
+        {{todo.finishedAt}}
+      </p>
+      <p class="card-text ">
+        <b>Todo description:</b>
+        {{todo.description}}
+      </p>
+      <button (click)="markDone()" class="btn btn-primary">Mark Done</button>
+      <button (click)="delete()" class="btn btn-primary" [routerLink]="['/todo']">Delete</button>
+    </div>
+  </div>
+  <div class="space-30"></div>
+</div>
