@@ -1,6 +1,7 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StorageService } from '../../../../core/services/storage/storage.service';
+import { ApiService } from '../../../../core/services/api/api.service';
 
 @Component({
   selector: 'app-todo',
@@ -8,13 +9,13 @@ import { StorageService } from '../../../../core/services/storage/storage.servic
   styleUrls: ['./todo.component.css']
 })
 
-export class TodoComponent implements OnInit, OnChanges {
+export class TodoComponent implements OnInit {
 
   todoForm: FormGroup;
   submitted = false;
-  todos = this.storageService.getTodoList();
+  todos;
 
-  constructor(private formBuilder: FormBuilder, private storageService: StorageService) { }
+  constructor(private formBuilder: FormBuilder, private storageService: StorageService, private apiService: ApiService) { }
 
   ngOnInit() {
     this.todoForm = this.formBuilder.group({
@@ -24,32 +25,40 @@ export class TodoComponent implements OnInit, OnChanges {
       finishedAt: null,
       description: ['', [Validators.required]]
     });
-    this.todos = this.storageService.getTodoList();
+    this.apiService.getTodoList().subscribe((posts) => {
+      this.todos = posts;
+    })
   }
 
   onSubmit() {
     this.submitted = true;
-    this.storageService.addTodo(this.todoForm.value);
-    this.todos = this.storageService.getTodoList();
+    this.todoForm.value.id = Math.floor((Math.random() * 10000000) + 1);
+    return this.apiService.addTodo(this.todoForm.value)
+      .subscribe(
+        res => {
+          console.log(res);
+        });
   }
 
   get f() {
     return this.todoForm.controls;
   }
 
-  ngOnChanges() {
-    // this.todos = this.storageService.getTodoList();
+  showAll() {
+    this.apiService.getTodoList().subscribe((posts) => {
+      this.todos = posts;
+    })
   }
 
-  showAll(){
-    this.todos = this.storageService.getTodoList();
+  showDone() {
+    this.apiService.getTodoList().subscribe((todos) => {
+      this.todos = this.apiService.getDone(todos);
+    });
   }
 
-  showDone(){
-    this.todos = this.storageService.getDone();
-  }
-
-  showNotDone(){
-    this.todos = this.storageService.getNotDone();
+  showNotDone() {
+    this.apiService.getTodoList().subscribe((todos) => {
+      this.todos = this.apiService.getNotDone(todos);
+    });
   }
 }
