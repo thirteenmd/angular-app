@@ -3,6 +3,7 @@ import { environment } from '../../../../environments/environment';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import {IsDone, IsNotDone} from '../../../shared/utils/task-filters';
 
 
 @Injectable({
@@ -36,21 +37,13 @@ export class ApiService {
     return this.http.delete(`${this.URL}/${id}`);
   }
 
-  isDone(element, index, array) {
-    return (element.finished == true);
-  }
-
-  isNotDone(element, index, array) {
-    return (element.finished == false);
-  }
-
   getDone(todos) {
-    let done = todos.filter(this.isDone);
+    let done = todos.filter(IsDone);
     return done;
   }
 
   getNotDone(todos) {
-    let notDone = todos.filter(this.isNotDone);
+    let notDone = todos.filter(IsNotDone);
     return notDone;
   }
 

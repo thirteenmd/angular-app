@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {IsDone, IsNotDone} from '../../../shared/utils/task-filters';
 
 @Injectable({
   providedIn: 'root'
@@ -53,21 +54,13 @@ export class StorageService {
     localStorage.setItem('myTodos', JSON.stringify(todos));
   }
 
-  isDone(element, index, array) {
-    return (element.finished == true);
-  }
-
-  isNotDone(element, index, array) {
-    return (element.finished == false);
-  }
-
   getDone(){
     let todos = this.getTodoList();
-    return todos.filter(this.isDone);;
+    return todos.filter(IsDone);;
   }
 
   getNotDone(){
     let todos = this.getTodoList();
-    return todos.filter(this.isNotDone);;
+    return todos.filter(IsNotDone);;
   }
 }
