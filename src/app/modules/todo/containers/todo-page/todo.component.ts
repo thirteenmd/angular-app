@@ -15,7 +15,7 @@ export class TodoComponent implements OnInit {
   submitted = false;
   todos;
 
-  constructor(private formBuilder: FormBuilder, private storageService: StorageService, private apiService: ApiService) { }
+  constructor(private formBuilder: FormBuilder, private apiService: ApiService) { }
 
   ngOnInit() {
     this.todoForm = this.formBuilder.group({
