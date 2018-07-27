@@ -13,7 +13,7 @@ export class TodoDetailsPageComponent implements OnInit, OnDestroy {
   todo: any;
   private subscription: any;
 
-  constructor(private route: ActivatedRoute, private apiService: ApiService) { }
+  constructor(private route: ActivatedRoute, private apiService: ApiService, private storageService: StorageService) { }
 
   ngOnInit() {
     this.subscription = this.route.params.subscribe(params => {

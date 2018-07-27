@@ -1,66 +1,85 @@
 import { Injectable } from '@angular/core';
-import {IsDone, IsNotDone} from '../../../shared/utils/task-filters';
+import { IsDone, IsNotDone } from '../../../shared/utils/task-filters';
+import { Observable } from '../../../../../node_modules/rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StorageService {
-  constructor() { }
+  todos: Array<any> = [];
 
-  getTodoList(){
-    let restoredTodos = JSON.parse(localStorage.getItem('myTodos'));
-    if (restoredTodos == null) {
-      restoredTodos = [];
-    }
-    return restoredTodos;
+  constructor() {
+    this.todos = JSON.parse(localStorage.getItem('myTodos'));
   }
 
-  addTodo(newTodo){
-    let todos = this.getTodoList();
-    todos.push(newTodo);
-    localStorage.setItem('myTodos', JSON.stringify(todos));
+  getTodoList(): Observable<Array<any>> {
+    return new Observable<Array<any>>((observer) => {
+      observer.next(this.todos);
+      observer.complete();
+      return {
+        unsubscribe() { }
+      };
+    });
   }
 
-  getTodo(id){
-    let todos = this.getTodoList();
-    for (let i = 0; i < todos.length; i++) {
-      if (todos[i].id == id) {
-        return todos[i];
-      } 
-    }
+  addTodo(newTodo): Observable<Array<any>> {
+    return new Observable<Array<any>>((observer) => {
+      this.todos.push(newTodo);
+      localStorage.setItem('myTodos', JSON.stringify(this.todos));
+
+      observer.next(newTodo);
+      observer.complete();
+      return {
+        unsubscribe() { }
+      };
+    });
   }
 
-  markDone(todo){
-    let todos = this.getTodoList();
-    todo.finished = true;
-    todo.finishedAt = new Date();
-    for (let i = 0; i < todos.length; i++) {
-      if (todos[i].id == todo.id) {
-        todos[i] = todo;
-        break;
-      } 
-    }
-    localStorage.setItem('myTodos', JSON.stringify(todos));
+  getTodo(id): Observable<any> {
+    return new Observable<any>((observer) => {
+      observer.next(this.todos.find((todo) => todo.id === id));
+      observer.complete();
+      return {
+        unsubscribe() { }
+      };
+    });
+  };
+
+  markDone(todo) {
+    return new Observable<any>((observer) => {
+      let todoIndex = this.todos.indexOf(todo);
+      this.todos.fill(todo, todoIndex, todoIndex + 1);
+      localStorage.setItem('myTodos', JSON.stringify(this.todos));
+      observer.next(todo)
+      observer.complete();
+      return {
+        unsubscribe() { }
+      };
+    });
   }
 
-  delete(id){
-    let todos = this.getTodoList();
-    for (let i = 0; i < todos.length; i++) {
-      if (todos[i].id == id) {
-        todos.splice(i, 1);
-        break;
-      } 
-    }
-    localStorage.setItem('myTodos', JSON.stringify(todos));
+  delete(id) {
+    return new Observable<any>((observer) => {
+      let todo;
+      this.getTodo(id).subscribe((element) => {
+        todo = element;
+        let index = this.todos.indexOf(todo);
+        this.todos.splice(index, 1);
+      })
+      localStorage.setItem('myTodos', JSON.stringify(this.todos));
+      observer.next(todo);
+      observer.complete();
+      return {
+        unsubscribe() { }
+      };
+    });
   }
 
-  getDone(){
-    let todos = this.getTodoList();
+  getDone(todos){
     return todos.filter(IsDone);;
   }
 
-  getNotDone(){
-    let todos = this.getTodoList();
+  getNotDone(todos){
     return todos.filter(IsNotDone);;
   }
 }

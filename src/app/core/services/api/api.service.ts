@@ -3,7 +3,7 @@ import { environment } from '../../../../environments/environment';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {IsDone, IsNotDone} from '../../../shared/utils/task-filters';
+import { IsDone, IsNotDone } from '../../../shared/utils/task-filters';
 
 
 @Injectable({
@@ -26,7 +26,8 @@ export class ApiService {
   }
 
   addTodo(newTodo) {
-    return this.http.post(`${this.URL}`, newTodo);
+    return this.http.post(`${this.URL}`, newTodo)
+      .pipe(map(response => response.json()));
   }
 
   markDone(updatedTodo) {
@@ -38,13 +39,11 @@ export class ApiService {
   }
 
   getDone(todos) {
-    let done = todos.filter(IsDone);
-    return done;
+    return todos.filter(IsDone);
   }
 
   getNotDone(todos) {
-    let notDone = todos.filter(IsNotDone);
-    return notDone;
+    return todos.filter(IsNotDone);;
   }
 
 }
