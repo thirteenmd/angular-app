@@ -8,11 +8,13 @@ import { CoreModule } from './core/core.module';
 import { appRoutes} from './app.routes';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TodoDetailsPageComponent } from './modules/todo/containers/todo-details-page/todo-details-page.component';
+import { ConcatNameIdPipe } from './shared/pipes/concat-name-id.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TodoDetailsPageComponent
+    TodoDetailsPageComponent,
+    ConcatNameIdPipe
   ],
   imports: [
     BrowserModule,

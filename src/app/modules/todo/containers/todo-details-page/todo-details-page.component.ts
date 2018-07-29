@@ -18,7 +18,7 @@ export class TodoDetailsPageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscription = this.route.params.subscribe(params => {
       this.id = +params['id'];
-      this.apiService.getTodo(this.id).subscribe((element) => {
+      this.storageService.getTodo(this.id).subscribe((element) => {
         this.todo = element;
       })
     })
@@ -31,7 +31,7 @@ export class TodoDetailsPageComponent implements OnInit, OnDestroy {
   markDone(){
     this.todo.finished = true;
     this.todo.finishedAt = new Date();
-    return this.apiService.markDone(this.todo)
+    return this.storageService.markDone(this.todo)
       .subscribe(
         res => {
           console.log(res);
@@ -39,7 +39,7 @@ export class TodoDetailsPageComponent implements OnInit, OnDestroy {
   }
 
   delete(){
-    this.apiService.delete(this.id)
+    this.storageService.delete(this.id)
       .subscribe(
         res => {
           console.log(res);

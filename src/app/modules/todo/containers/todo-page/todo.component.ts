@@ -14,7 +14,7 @@ export class TodoComponent implements OnInit {
 
   todoForm: FormGroup;
   submitted = false;
-  todos;
+  todos = [];
 
   constructor(private formBuilder: FormBuilder, private apiService: ApiService, private storageService: StorageService) { }
 
