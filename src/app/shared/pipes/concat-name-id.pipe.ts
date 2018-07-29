@@ -6,7 +6,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class ConcatNameIdPipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
-    return null;
+    let newName = `${args}_${value}`;
+    return newName;
   }
 
 }

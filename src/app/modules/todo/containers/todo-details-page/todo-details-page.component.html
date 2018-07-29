@@ -5,7 +5,7 @@
       <i class="card-img-top material-icons">turned_in_not</i>
       <h5 class="card-title">
         <b>Todo:</b>
-        {{todo.name}}
+        {{todo.name | concatNameId: todo.id}}
       </h5>
       <p class="card-text">
         <b>Finished:</b>

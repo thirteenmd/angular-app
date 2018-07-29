@@ -8,13 +8,12 @@ import { CoreModule } from './core/core.module';
 import { appRoutes} from './app.routes';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TodoDetailsPageComponent } from './modules/todo/containers/todo-details-page/todo-details-page.component';
-import { ConcatNameIdPipe } from './shared/pipes/concat-name-id.pipe';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TodoDetailsPageComponent,
-    ConcatNameIdPipe
+    TodoDetailsPageComponent
   ],
   imports: [
     BrowserModule,
@@ -22,7 +21,8 @@ import { ConcatNameIdPipe } from './shared/pipes/concat-name-id.pipe';
     appRoutes,
     FormsModule,
     ReactiveFormsModule,
-    HttpModule
+    HttpModule,
+    SharedModule
   ],
   providers: [StorageService],
   bootstrap: [AppComponent]
