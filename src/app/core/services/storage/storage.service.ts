@@ -79,11 +79,11 @@ export class StorageService {
     });
   }
 
-  getDone(todos){
+  getDone(todos) {
     return todos.filter(IsDone);;
   }
 
-  getNotDone(todos){
+  getNotDone(todos) {
     return todos.filter(IsNotDone);;
   }
 }
