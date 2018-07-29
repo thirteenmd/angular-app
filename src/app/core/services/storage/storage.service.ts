@@ -14,6 +14,8 @@ export class StorageService {
 
   getTodoList(): Observable<Array<any>> {
     return new Observable<Array<any>>((observer) => {
+      if (this.todos == null || this.todos.length == 0)
+        this.todos = [];
       observer.next(this.todos);
       observer.complete();
       return {
@@ -24,6 +26,8 @@ export class StorageService {
 
   addTodo(newTodo): Observable<Array<any>> {
     return new Observable<Array<any>>((observer) => {
+      if (this.todos == null || this.todos.length == 0)
+        this.todos = [];
       this.todos.push(newTodo);
       localStorage.setItem('myTodos', JSON.stringify(this.todos));
 
